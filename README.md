@@ -1,6 +1,6 @@
-# 图片处理
+# 鍥剧墖澶勭悊
 ```
-PC&mobile项目
+PC&mobile缃戠珯椤圭洰
 ```
 
 ## Project setup

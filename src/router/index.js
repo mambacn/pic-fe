@@ -1,23 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
+import PcView from '@/views/pc/PcView.vue'
+import PcHome from '@/views/pc/PcHome.vue'
+import PcDetail from '@/views/pc/PcDetail.vue'
+
+import MobileView from '@/views/mobile/MobileView.vue'
+
+import { isPCUser } from '@/utils/tools'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    component: isPCUser() ? PcView : MobileView,
+    children: [
+      {
+        path: '/detail',
+        component: PcDetail
+      },
+      {
+        path: '/',
+        component: PcHome
+      }
+    ]
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+
 ]
 
 const router = new VueRouter({

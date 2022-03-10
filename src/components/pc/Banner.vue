@@ -1,6 +1,11 @@
 <template>
   <div class="banner-box">
-    <div class="mainContent bannerMain"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="mainContent bannerMain">
+      <img class="pic" src="@/assets/pc/banner1.png" alt="" />
+      <img class="word" src="@/assets/pc/banner-word.png" alt="" />
+    </div>
   </div>
 </template>
 
@@ -12,11 +17,60 @@ export default {};
 .banner-box {
   width: 100%;
   height: 775px;
-  background: url("@/assets/pc/banner-bottom.png") no-repeat center;
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  .circle {
+    z-index: -1;
+    border-radius: 50%;
+    position: absolute;
+    animation: mymove 6s ease-in-out infinite;
+  }
+  .circle:first-of-type {
+    width: 600px;
+    height: 600px;
+    background: #ffd5c8;
+    opacity: 0.5;
+    left: -127px;
+    bottom: -224px;
+  }
+  .circle:nth-of-type(2) {
+    height: 460px;
+    width: 460px;
+    background: #ffac92;
+    opacity: 0.5;
+    right: -57px;
+    top: -39px;
+  }
   .bannerMain {
-    background-color: rgba(0, 0, 0, 0.2);
     height: 100%;
+    .pic {
+      margin-top: 51px;
+    }
+    .word {
+      vertical-align: top;
+      margin-top: 228px;
+      margin-left: 92px;
+    }
+  }
+}
+
+@keyframes mymove {
+  0%,
+  100% {
+    -webkit-transform: translateX(-5%) translateY(0);
+    transform: translateX(-5%) translateY(0);
+  }
+  25% {
+    -webkit-transform: translateX(0) translateY(-5%);
+    transform: translateX(0) translateY(-5%);
+  }
+  50% {
+    -webkit-transform: translateX(5%) translateY(0);
+    transform: translateX(5%) translateY(0);
+  }
+  75% {
+    -webkit-transform: translateX(0) translateY(5%);
+    transform: translateX(0) translateY(5%);
   }
 }
 </style>

@@ -3,7 +3,33 @@
     <div class="mainContent headerbox">
       <div class="logo">企业logo</div>
       <div class="btns">
-        <div class="btn">所有功能<i class="el-icon-arrow-down"></i></div>
+        <div class="btn allfunction">
+          所有功能<i class="el-icon-arrow-down"></i>
+          <div class="nav-function">
+            <div class="function-one">
+              <h2>人脸人体</h2>
+              <ul>
+                <li>人脸年龄化</li>
+                <li>性别转换</li>
+                <li>人脸动漫化/素描化</li>
+                <li>人体分割</li>
+                <li>人脸美妆</li>
+                <li>人脸美型</li>
+                <li>五官编辑</li>
+                <li>人脸滤镜</li>
+                <li>人脸美颜</li>
+              </ul>
+            </div>
+            <div class="function-two">
+              <h2>拼图贴图</h2>
+              <ul>
+                <li>照片拼图</li>
+                <li>照片滤镜</li>
+                <li>海量贴图</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div class="btn">开通会员</div>
         <el-popover placement="bottom" width="214" trigger="hover">
           <img class="adimg" src="@/assets/pc/Android.png" alt="" />
@@ -45,6 +71,7 @@ export default {};
   height: 84px;
   border-bottom: 1px solid #e9e9e9;
   .headerbox {
+    position: relative;
     display: flex;
     height: 100%;
     align-items: center;
@@ -66,18 +93,84 @@ export default {};
       margin-right: 50px;
       display: flex;
       align-items: center;
-
       .btn {
         height: 84px;
         line-height: 84px;
         font-size: 18px;
         cursor: pointer;
         margin-left: 64px;
+        position: relative;
         i {
           margin-left: 16px;
+        }
+        .nav-function {
+          transition: all 0.2s;
+          opacity: 0;
+          visibility: hiiden;
+          z-index: 1;
+          position: absolute;
+          top: 94px;
+          left: -852px;
+          height: 160px;
+          width: 1280px;
+          border-radius: 25px;
+          box-shadow: 0px 2px 4px 0px rgba(216, 0, 0, 0.12);
+          background-color: #fff;
+          line-height: 80px;
+          .function-one {
+            display: flex;
+            h2 {
+              margin-left: 67px;
+              margin-right: 52px;
+              font-size: 17px;
+              font-family: PingFangSC-Medium, PingFang SC;
+              font-weight: 500;
+              color: #fd4538;
+            }
+            ul {
+              width: 1000px;
+              display: flex;
+              justify-content: space-between;
+              li {
+                cursor: pointer;
+                font-size: 16px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #444444;
+              }
+            }
+          }
+          .function-two {
+            display: flex;
+            margin-top: -10px;
+            h2 {
+              margin-left: 67px;
+              margin-right: 52px;
+              font-size: 17px;
+              font-family: PingFangSC-Medium, PingFang SC;
+              font-weight: 500;
+              color: #fd4538;
+            }
+            ul {
+              width: 300px;
+              display: flex;
+              justify-content: space-between;
+              li {
+                font-size: 16px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #444444;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }
   }
+}
+.allfunction:hover .nav-function {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 </style>

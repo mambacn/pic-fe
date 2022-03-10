@@ -1,6 +1,6 @@
 <template>
   <div class="banner-box">
-    <div class="mainContent bannerMain">这是banner</div>
+    <div class="mainContent bannerMain"></div>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {};
   background: url("@/assets/pc/banner-bottom.png") no-repeat center;
   background-size: cover;
   .bannerMain {
-    // background-color: #ccc;
+    background-color: rgba(0, 0, 0, 0.2);
     height: 100%;
   }
 }

@@ -33,9 +33,11 @@ export default {};
 }
 .adimg {
   margin: 20px 12px;
+  cursor: pointer;
 }
 .iosimg {
   margin: 0px 12px 18px 12px;
+  cursor: pointer;
 }
 </style>
 <style lang="scss" scoped>

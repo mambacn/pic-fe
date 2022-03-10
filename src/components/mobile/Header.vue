@@ -1,5 +1,5 @@
 <template>
-  <div>这是header-mobile</div>
+  <div></div>
 </template>
 
 <script>

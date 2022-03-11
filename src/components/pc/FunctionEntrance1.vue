@@ -1,5 +1,5 @@
 <template>
-  <div class="function-entrance">
+  <div class="function-entrance" @click="todetail">
     <img :src="src" alt="" />
     <div class="function-title">
       <h4>{{ funtionTitle }}</h4>
@@ -10,7 +10,11 @@
 <script>
 export default {
   props: ["src", "funtionTitle"],
-  methods: {},
+  methods: {
+    todetail() {
+      this.$router.replace("/detail");
+    },
+  },
 };
 </script>
 

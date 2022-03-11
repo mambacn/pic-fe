@@ -1,11 +1,12 @@
 <template>
   <div class="box">
     <div class="mainContent headerbox">
-      <div class="logo">企业logo</div>
+      <div class="logo" @click="returnhome">企业logo</div>
       <div class="btns">
         <div class="btn allfunction">
           所有功能<i class="el-icon-arrow-down"></i>
           <div class="nav-function">
+            <div class="triangle"></div>
             <div class="function-one">
               <h2>人脸人体</h2>
               <ul>
@@ -42,7 +43,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    returnhome() {
+      this.$router.replace("/");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -77,6 +84,7 @@ export default {};
     align-items: center;
     justify-content: space-between;
     .logo {
+      cursor: pointer;
       width: 270px;
       height: 55px;
       margin-left: 46px;
@@ -102,21 +110,30 @@ export default {};
         position: relative;
         i {
           margin-left: 16px;
+          transition: all 0.2s linear 0.2s;
         }
         .nav-function {
-          transition: all 0.2s;
+          transition: all 0.2s linear 0.2s;
           opacity: 0;
-          visibility: hiiden;
+          visibility: hidden;
           z-index: 1;
           position: absolute;
-          top: 94px;
+          top: 96px;
           left: -852px;
           height: 160px;
           width: 1280px;
           border-radius: 25px;
-          box-shadow: 0px 2px 4px 0px rgba(216, 0, 0, 0.12);
+          // 盒子阴影写法 box-shadow: h-shadow v-shadow blur spread color inset;
+          box-shadow: 0px 0px 10px 12px rgba(216, 0, 0, 0.022);
           background-color: #fff;
           line-height: 80px;
+          .triangle {
+            position: absolute;
+            left: 875px;
+            top: -24px;
+            border: 12px solid transparent;
+            border-bottom-color: #fff;
+          }
           .function-one {
             display: flex;
             h2 {
@@ -172,5 +189,8 @@ export default {};
 .allfunction:hover .nav-function {
   visibility: visible !important;
   opacity: 1 !important;
+}
+.allfunction:hover i {
+  transform: rotate(180deg) !important;
 }
 </style>

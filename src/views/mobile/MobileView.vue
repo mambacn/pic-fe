@@ -1,13 +1,15 @@
 <template>
   <div>
     <Header></Header>
-    <div class="home">这里是mobile</div>
+    <router-view></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Header from "@/components/mobile/Header.vue";
+import Footer from "@/components/mobile/Footer.vue";
 export default {
-  components: { Header },
+  components: { Header, Footer },
 };
 </script>

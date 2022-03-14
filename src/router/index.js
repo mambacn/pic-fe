@@ -6,6 +6,7 @@ import PcHome from '@/views/pc/PcHome.vue'
 import PcDetail from '@/views/pc/PcDetail.vue'
 
 import MobileView from '@/views/mobile/MobileView.vue'
+import MobileHome from '@/views/mobile/MobileHome'
 
 import { isPCUser } from '@/utils/tools'
 Vue.use(VueRouter)
@@ -21,7 +22,7 @@ const routes = [
       },
       {
         path: '/',
-        component: PcHome
+        component: isPCUser() ? PcHome : MobileHome
       }
     ]
   },

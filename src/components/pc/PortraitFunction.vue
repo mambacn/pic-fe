@@ -75,9 +75,7 @@ export default {
       padding-top: 50px;
       display: flex;
       justify-content: center;
-      img {
-        padding-top: 4px;
-      }
+      align-items: center;
       h2 {
         display: inline-block;
         margin: 0px 32px;

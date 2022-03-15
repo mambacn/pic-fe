@@ -35,4 +35,9 @@ const router = new VueRouter({
   routes
 })
 
+// 路由跳转之后页面重新定位到顶部
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0);
+});
+
 export default router

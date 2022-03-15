@@ -9,25 +9,40 @@
       </div>
       <!-- 拼图功能图片入口模块 -->
       <div class="picture-box">
-        <div class="function-entrance">
-          <img src="@/assets/pc/collage/collage1.png" alt="" />
-          <div class="function-title"><h4>拼图</h4></div>
-        </div>
-        <div class="function-entrance">
-          <img src="@/assets/pc/collage/collage2.png" alt="" />
-          <div class="function-title"><h4>照片滤镜</h4></div>
-        </div>
-        <div class="function-entrance">
-          <img src="@/assets/pc/collage/collage3.png" alt="" />
-          <div class="function-title"><h4>海量贴图</h4></div>
-        </div>
+        <CollageUnit
+          v-for="(c, index) in collages"
+          :src="c.src"
+          :funtionTitle="c.title"
+          :key="index"
+        ></CollageUnit>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import CollageUnit from "./CollageUnit.vue";
+export default {
+  data() {
+    return {
+      collages: [
+        {
+          src: require("@/assets/pc/collage/collage1.png"),
+          title: "人脸年龄化",
+        },
+        {
+          src: require("@/assets/pc/collage/collage2.png"),
+          title: "性别转换",
+        },
+        {
+          src: require("@/assets/pc/collage/collage3.png"),
+          title: "人脸动漫化/素描化",
+        },
+      ],
+    };
+  },
+  components: { CollageUnit },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -59,31 +74,6 @@ export default {};
       display: flex;
       justify-content: space-between;
       margin-top: 70px;
-      .function-entrance {
-        cursor: pointer;
-        img {
-          // 调整img图片与下面盒子的缝隙
-          vertical-align: bottom;
-        }
-        .function-title {
-          width: 365px;
-          height: 91px;
-          background: #ffffff;
-          box-shadow: 0px 5px 11px 0px rgba(83, 83, 83, 0.16);
-          border-radius: 0px 0px 10px 10px;
-          overflow: hidden;
-          h4 {
-            height: 33px;
-            font-size: 24px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #444444;
-            line-height: 33px;
-            text-align: center;
-            margin-top: 31px;
-          }
-        }
-      }
     }
   }
 }

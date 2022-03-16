@@ -57,13 +57,13 @@ export default {
 .el-popper {
   border-radius: 14px !important;
 }
-.popper__arrow::after {
-  top: -24px !important;
-  margin-left: -12px !important;
-}
-.popper__arrow::after {
-  border-width: 18px !important;
-}
+// .popper__arrow::after {
+//   top: -24px !important;
+//   margin-left: -12px !important;
+// }
+// .popper__arrow::after {
+//   border-width: 18px !important;
+// }
 .adimg {
   margin: 20px 12px;
   cursor: pointer;

@@ -6,7 +6,8 @@ import PcHome from '@/views/pc/PcHome.vue'
 import PcDetail from '@/views/pc/PcDetail.vue'
 
 import MobileView from '@/views/mobile/MobileView.vue'
-import MobileHome from '@/views/mobile/MobileHome'
+import MobileHome from '@/views/mobile/MobileHome.vue'
+import MobileDetail from '@/views/mobile/MobileDetail.vue'
 
 import { isPCUser } from '@/utils/tools'
 Vue.use(VueRouter)
@@ -18,7 +19,7 @@ const routes = [
     children: [
       {
         path: '/detail',
-        component: PcDetail
+        component: isPCUser() ? PcDetail : MobileDetail
       },
       {
         path: '/',

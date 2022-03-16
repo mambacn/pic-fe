@@ -12,7 +12,7 @@ export default {
   props: ["src", "funtionTitle"],
   methods: {
     todetail() {
-      this.$router.replace("/detail");
+      this.$router.push("/detail");
     },
   },
 };

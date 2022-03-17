@@ -32,10 +32,26 @@
               <el-slider v-model="value2"></el-slider>
             </div>
           </div>
-          <button type="button" @click="handle">确认参数</button>
+          <button type="button" @click="handle" :disabled="isloading">
+            确认参数
+          </button>
         </div>
         <div class="show">
+          <div class="loading" v-if="isloading"></div>
           <img :src="picurl" alt="" />
+          <div class="newpic-box" ref="newpicbox">
+            <img class="newpic" :src="newpicurl" alt="" />
+          </div>
+          <img
+            v-if="iscomparing"
+            src="@/assets/pc/comparison.png"
+            class="comparison"
+            alt=""
+            @mousedown="move"
+            draggable="false"
+          />
+          <div class="origin" v-if="iscomparing" ref="origin">原图</div>
+          <div class="result" v-if="iscomparing" ref="result">效果图</div>
         </div>
         <div class="upload">
           <div class="search">
@@ -58,6 +74,7 @@
             type="file"
             ref="defaultbtn"
             @change="showpic"
+            accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
           />
         </div>
       </div>
@@ -96,7 +113,10 @@ export default {
       value: "",
       input: "",
       picurl: "",
-      file: {},
+      newpicurl: "",
+      file: undefined,
+      isloading: false,
+      iscomparing: false,
     };
   },
   methods: {
@@ -105,7 +125,14 @@ export default {
     },
     showpic(e) {
       // console.log(e.target.files);
+      this.$refs.newpicbox.style.width = "580.5px";
+      this.newpicurl = "";
+      this.iscomparing = false;
       const file = e.target.files[0];
+      if (file.size > 1024 * 1024 * 3) {
+        alert("图片大小不能超过3M!");
+        return false;
+      }
       this.file = file;
       const _this = this;
       if (file) {
@@ -118,13 +145,58 @@ export default {
       }
     },
     handle() {
-      const fd = new FormData();
-      fd.append("image", this.file);
-      fd.append("json", "json");
-      this.$axios.post("/alyApi/humananime", fd).then((res) => {
-        const url = res.data.body.ImageURL;
-        this.picurl = url;
-      });
+      // 判断file是否是空对象,不是空对象才发送ajax请求并显示loading
+      if (this.file) {
+        const fd = new FormData();
+        fd.append("image", this.file);
+        fd.append("json", "json");
+        this.$axios.post("/alyApi/humananime", fd).then((res) => {
+          const url = res.data.body.ImageURL;
+          this.newpicurl = url;
+          this.isloading = false;
+          this.iscomparing = true;
+        });
+        this.isloading = true;
+      }
+    },
+    move(e) {
+      let odiv = e.target; //获取目标元素
+      //算出鼠标相对元素的位置
+      let disX = e.clientX - odiv.offsetLeft;
+      // let disY = e.clientY - odiv.offsetTop;
+      document.onmousemove = (e) => {
+        //鼠标按下并移动的事件
+        //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+        let left = e.clientX - disX;
+        // let top = e.clientY - disY;
+        //移动当前元素
+        if (left < 0) {
+          odiv.style.left = 0 + "px";
+        } else if (left > 1117) {
+          odiv.style.left = 1117 + "px";
+        } else {
+          odiv.style.left = left + "px";
+        }
+        if (left < 100) {
+          this.$refs.origin.style.visibility = "hidden";
+        } else {
+          this.$refs.origin.style.visibility = "visible";
+        }
+        let diffdata = 558.5 - left;
+        let width = 580.5 + diffdata;
+        let resultleft = 595 - diffdata < 33.5 ? 33.5 : 595 - diffdata;
+        if (resultleft > 1044) {
+          this.$refs.result.style.visibility = "hidden";
+        } else {
+          this.$refs.result.style.visibility = "visible";
+        }
+        this.$refs.newpicbox.style.width = width + "px";
+        this.$refs.result.style.left = resultleft + "px";
+      };
+      document.onmouseup = (e) => {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
     },
   },
 };
@@ -204,8 +276,66 @@ export default {
         border-radius: 1px;
         border: 1px solid #e2e2e2;
         text-align: center;
+        position: relative;
+        .loading {
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: linear-gradient(#fff, #fd4538);
+          animation: Loading 1.2s linear infinite;
+        }
         img {
           height: 100%;
+        }
+        .newpic-box {
+          position: absolute;
+          overflow: hidden;
+          width: 580.5px;
+          height: 499px;
+          top: 0;
+          right: 0;
+        }
+        .newpic {
+          position: absolute;
+          right: 580.5px;
+          transform: translateX(50%);
+        }
+        .comparison {
+          cursor: pointer;
+          position: absolute;
+          z-index: 1;
+          left: 558.5px;
+        }
+        .origin {
+          position: absolute;
+          top: 10px;
+          left: 0px;
+          width: 113px;
+          height: 39px;
+          line-height: 39px;
+          text-align: center;
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 7px;
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #fff;
+        }
+        .result {
+          position: absolute;
+          top: 10px;
+          left: 590px;
+          width: 113px;
+          height: 39px;
+          line-height: 39px;
+          text-align: center;
+          background-color: rgba(253, 69, 56, 0.2);
+          border-radius: 7px;
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #fd4538;
         }
       }
       .upload {
@@ -260,6 +390,15 @@ export default {
         }
       }
     }
+  }
+}
+@keyframes Loading {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+    opacity: 0;
   }
 }
 </style>

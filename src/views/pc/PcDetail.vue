@@ -39,7 +39,7 @@
         <div class="show">
           <div class="loading" v-show="isloading"></div>
           <img :src="picurl" alt="" />
-          <div class="newpic-box" ref="newpicbox">
+          <div class="newpic-box" ref="newpicbox" v-show="iscomparing">
             <img class="newpic" :src="newpicurl" alt="" />
           </div>
           <img
@@ -117,6 +117,17 @@ export default {
       file: undefined,
       isloading: false,
       iscomparing: false,
+      ajaxpath: [
+        "/tencentApi/changeAging",
+        "/tencentApi/swapGender",
+        "/alyApi/humananime",
+        "/alyApi/segmentbody",
+        "/alyApi/facemakeup",
+        "/alyApi/facetidyup",
+        "/alyApi/swapfacial",
+        "/alyApi/facefilter",
+        "/alyApi/facebeauty",
+      ],
     };
   },
   methods: {
@@ -150,7 +161,19 @@ export default {
         const fd = new FormData();
         fd.append("image", this.file);
         fd.append("json", "json");
-        this.$axios.post("/alyApi/humananime", fd).then((res) => {
+        const num = parseInt(this.$route.query.selected);
+        if (num == 0) {
+          fd.append("Age", "60");
+        } else if (num == 1) {
+          fd.append("Gender", "1");
+        } else if (num == 4) {
+          fd.append("ResourceType", "5");
+          fd.append("Strength", "0.6");
+        } else if (num == 5) {
+          fd.append("ShapeType", "3");
+          fd.append("Strength", "0.6");
+        }
+        this.$axios.post(this.ajaxpath[num], fd).then((res) => {
           const url = res.data.body.ImageURL;
           this.newpicurl = url;
           this.isloading = false;
@@ -297,14 +320,15 @@ export default {
           position: absolute;
           overflow: hidden;
           width: 580.5px;
-          height: 499px;
+          height: 100%;
           top: 0;
           right: 0;
-        }
-        .newpic {
-          position: absolute;
-          right: 580.5px;
-          transform: translateX(50%);
+          .newpic {
+            position: absolute;
+            right: 580.15px;
+            transform: translateX(50%);
+            background-color: #fff;
+          }
         }
         .comparison {
           cursor: pointer;

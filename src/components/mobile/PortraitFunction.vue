@@ -102,6 +102,7 @@ export default {
     justify-content: space-between;
     margin: compute(23) compute(17) 0 compute(20);
     .opt {
+      white-space: nowrap;
       margin-right: compute(3);
       margin-bottom: compute(18);
       float: left;

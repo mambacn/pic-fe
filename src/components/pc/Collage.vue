@@ -28,15 +28,15 @@ export default {
       collages: [
         {
           src: require("@/assets/pc/collage/collage1.png"),
-          title: "人脸年龄化",
+          title: "拼图",
         },
         {
           src: require("@/assets/pc/collage/collage2.png"),
-          title: "性别转换",
+          title: "图片滤镜",
         },
         {
           src: require("@/assets/pc/collage/collage3.png"),
-          title: "人脸动漫化/素描化",
+          title: "海量贴图",
         },
       ],
     };

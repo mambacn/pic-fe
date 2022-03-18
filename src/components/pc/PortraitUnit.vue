@@ -2,17 +2,20 @@
   <div class="function-entrance" @click="todetail">
     <img :src="src" alt="" />
     <div class="function-title">
-      <h4>{{ funtionTitle }}</h4>
+      <h4>{{ functionTitle }}</h4>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["src", "funtionTitle"],
+  props: ["src", "functionTitle", "type"],
   methods: {
     todetail() {
-      this.$router.push("/detail");
+      this.$router.push({
+        path: "/detail",
+        query: { selected: this.type },
+      });
     },
   },
 };

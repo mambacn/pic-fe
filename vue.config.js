@@ -11,7 +11,8 @@ module.exports = defineConfig({
     port: 8080, // 端口号
     https: false, // https:{type:Boolean}
     open: false, //配置后自动启动浏览器
-    proxy: 'http://pic.wewallet.info'   // 配置跨域处理,只有一个代理
+    proxy: 'http://pic.wewallet.info',  // 配置跨域处理,只有一个代理
+    headers: { Connection: "keep-alive" }
     // proxy: { //配置多个代理
     //   "/testIp": {
     //     target: "http://197.0.0.1:8088",

@@ -37,7 +37,7 @@
           </button>
         </div>
         <div class="show">
-          <div class="loading" v-if="isloading"></div>
+          <div class="loading" v-show="isloading"></div>
           <img :src="picurl" alt="" />
           <div class="newpic-box" ref="newpicbox">
             <img class="newpic" :src="newpicurl" alt="" />
@@ -50,8 +50,8 @@
             @mousedown="move"
             draggable="false"
           />
-          <div class="origin" v-if="iscomparing" ref="origin">原图</div>
-          <div class="result" v-if="iscomparing" ref="result">效果图</div>
+          <div class="origin" v-show="iscomparing" ref="origin">原图</div>
+          <div class="result" v-show="iscomparing" ref="result">效果图</div>
         </div>
         <div class="upload">
           <div class="search">
@@ -157,6 +157,10 @@ export default {
           this.iscomparing = true;
         });
         this.isloading = true;
+        this.newpicurl = "";
+        this.iscomparing = false;
+        this.$refs.newpicbox.style.width = "580.5px";
+        this.$refs.result.style.left = "592px";
       }
     },
     move(e) {
@@ -177,7 +181,7 @@ export default {
         } else {
           odiv.style.left = left + "px";
         }
-        if (left < 100) {
+        if (left < 110) {
           this.$refs.origin.style.visibility = "hidden";
         } else {
           this.$refs.origin.style.visibility = "visible";
@@ -185,13 +189,13 @@ export default {
         let diffdata = 558.5 - left;
         let width = 580.5 + diffdata;
         let resultleft = 595 - diffdata < 33.5 ? 33.5 : 595 - diffdata;
-        if (resultleft > 1044) {
+        if (resultleft > 1040) {
           this.$refs.result.style.visibility = "hidden";
         } else {
           this.$refs.result.style.visibility = "visible";
         }
-        this.$refs.newpicbox.style.width = width + "px";
         this.$refs.result.style.left = resultleft + "px";
+        this.$refs.newpicbox.style.width = width + "px";
       };
       document.onmouseup = (e) => {
         document.onmousemove = null;
@@ -278,8 +282,9 @@ export default {
         text-align: center;
         position: relative;
         .loading {
-          width: 100%;
+          width: 1161px;
           position: absolute;
+          z-index: 5;
           left: 0;
           top: 0;
           background: linear-gradient(#fff, #fd4538);
@@ -310,7 +315,7 @@ export default {
         .origin {
           position: absolute;
           top: 10px;
-          left: 0px;
+          left: 10px;
           width: 113px;
           height: 39px;
           line-height: 39px;
@@ -325,7 +330,7 @@ export default {
         .result {
           position: absolute;
           top: 10px;
-          left: 590px;
+          left: 592px;
           width: 113px;
           height: 39px;
           line-height: 39px;

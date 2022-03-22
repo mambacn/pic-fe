@@ -9,33 +9,11 @@
       </div>
       <!-- 功能体验展示模块 -->
       <div class="experience">
-        <div class="parameter">
-          <div class="para">
-            <div>
-              <span> 参数类型1</span>
-              <el-radio v-model="radio" label="1">备选项</el-radio>
-            </div>
-            <div>
-              <span> 参数类型2</span>
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="(item, index) in options"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="block">
-              <span> 参数类型3</span>
-              <el-slider v-model="value2"></el-slider>
-            </div>
-          </div>
-          <button type="button" @click="handle" :disabled="isloading">
-            确认参数
-          </button>
-        </div>
+        <Parameter
+          :isloading="isloading"
+          :type="parseInt($route.query.selected)"
+          @confirm="handle"
+        ></Parameter>
         <div class="show">
           <div class="loading" v-show="isloading"></div>
           <img :src="picurl" alt="" />
@@ -62,6 +40,7 @@
             >
             </el-input>
           </div>
+          <span>或</span>
           <button type="button" class="button2">
             <img src="@/assets/mobile/download.png" alt="" />
             下载成图
@@ -83,34 +62,12 @@
 </template>
 
 <script>
+import Parameter from "@/components/pc/Parameter.vue";
+
 export default {
+  components: { Parameter },
   data() {
     return {
-      radio: "1",
-      value2: 50,
-      options: [
-        {
-          value: "选项1",
-          label: "数据1",
-        },
-        {
-          value: "选项2",
-          label: "数据2",
-        },
-        {
-          value: "选项3",
-          label: "数据3",
-        },
-        {
-          value: "选项4",
-          label: "数据4",
-        },
-        {
-          value: "选项5",
-          label: "数据5",
-        },
-      ],
-      value: "",
       input: "",
       picurl: "",
       newpicurl: "",
@@ -155,24 +112,22 @@ export default {
         };
       }
     },
-    handle() {
+    handle(value) {
       // 判断file是否是空对象,不是空对象才发送ajax请求并显示loading
       if (this.file) {
         const fd = new FormData();
         fd.append("image", this.file);
         fd.append("json", "json");
-        const num = parseInt(this.$route.query.selected);
-        if (num == 0) {
-          fd.append("Age", "60");
-        } else if (num == 1) {
-          fd.append("Gender", "1");
-        } else if (num == 4) {
-          fd.append("ResourceType", "5");
-          fd.append("Strength", "0.6");
-        } else if (num == 5) {
-          fd.append("ShapeType", "3");
-          fd.append("Strength", "0.6");
+        // console.log(value);
+        if (value.hasOwnProperty("api")) {
+          // 如果用户选择了素描化则进行专门处理
+          if (value.api === 1) this.ajaxpath[2] = "/alyApi/facesketch";
+        } else {
+          for (let key in value) {
+            fd.append(key, value[key]);
+          }
         }
+        const num = parseInt(this.$route.query.selected);
         this.$axios.post(this.ajaxpath[num], fd).then((res) => {
           const url = res.data.body.ImageURL;
           this.newpicurl = url;
@@ -225,6 +180,30 @@ export default {
         document.onmouseup = null;
       };
     },
+    // downloadIamge(imgsrc, name) {
+    //   //下载图片地址和图片名
+    //   var image = new Image();
+    //   // 解决跨域 Canvas 污染问题
+    //   image.setAttribute("crossOrigin", "anonymous");
+    //   image.onload = function () {
+    //     var canvas = document.createElement("canvas");
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
+    //     var context = canvas.getContext("2d");
+    //     context.drawImage(image, 0, 0, image.width, image.height);
+    //     var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+
+    //     var a = document.createElement("a"); // 生成一个a元素
+    //     var event = new MouseEvent("click"); // 创建一个单击事件
+    //     a.download = name || "photo"; // 设置图片名称
+    //     a.href = url; // 将生成的URL设置为a.href属性
+    //     a.dispatchEvent(event); // 触发a的单击事件
+    //   };
+    //   image.src = imgsrc;
+    // },
+    // downloadpic() {
+    //   this.downloadIamge(this.newpicurl, "pic");
+    // },
   },
 };
 </script>
@@ -384,6 +363,13 @@ export default {
           /deep/ .el-input__inner {
             height: 47px;
           }
+        }
+        span {
+          display: inline-block;
+          margin-top: 41px;
+          margin-left: 25px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          color: #3d3d3d;
         }
         button {
           cursor: pointer;

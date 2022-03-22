@@ -10,15 +10,13 @@
             <div class="function-one">
               <h2>人脸人体</h2>
               <ul>
-                <li>人脸年龄化</li>
-                <li>性别转换</li>
-                <li>人脸动漫化/素描化</li>
-                <li>人体分割</li>
-                <li>人脸美妆</li>
-                <li>人脸美型</li>
-                <li>五官编辑</li>
-                <li>人脸滤镜</li>
-                <li>人脸美颜</li>
+                <li
+                  v-for="(p, index) in portraits"
+                  :key="index"
+                  @click="todetail(p.type)"
+                >
+                  {{ p.title }}
+                </li>
               </ul>
             </div>
             <div class="function-two">
@@ -44,7 +42,56 @@
 
 <script>
 export default {
+  data() {
+    return {
+      portraits: [
+        {
+          title: "人脸年龄化",
+          type: 0,
+        },
+        {
+          title: "性别转换",
+          type: 1,
+        },
+        {
+          title: "人脸动漫化/素描化",
+          type: 2,
+        },
+        {
+          title: "人体分割",
+          type: 3,
+        },
+        {
+          title: "人脸美妆",
+          type: 4,
+        },
+        {
+          title: "人脸美型",
+          type: 5,
+        },
+        {
+          title: "五官编辑",
+          type: 6,
+        },
+        {
+          title: "人脸滤镜",
+          type: 7,
+        },
+        {
+          title: "人脸美颜",
+          type: 8,
+        },
+      ],
+    };
+  },
   methods: {
+    todetail(type) {
+      this.$router.push({
+        path: "/detail",
+        query: { selected: type },
+      });
+      this.$router.go(0);
+    },
     returnhome() {
       this.$router.replace("/");
     },
@@ -154,6 +201,9 @@ export default {
                 font-family: PingFangSC-Regular, PingFang SC;
                 font-weight: 400;
                 color: #444444;
+              }
+              li:hover {
+                color: #fd4538;
               }
             }
           }

@@ -1,12 +1,18 @@
 <template>
   <div class="header-box">
-    <div class="logo">企业logo</div>
+    <div class="logo" @click="returnhome">企业logo</div>
     <div class="more"><img src="@/assets/mobile/more.png" alt="" /></div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    returnhome() {
+      this.$router.replace("/");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -19,6 +25,7 @@ export default {};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #e9e9e9;
   .logo {
     width: compute(157);
     height: compute(32);

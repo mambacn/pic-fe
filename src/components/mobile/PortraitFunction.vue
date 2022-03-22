@@ -8,12 +8,18 @@
     </div>
     <!-- 人像功能图片入口模块 -->
     <div class="opts">
-      <div v-for="(p, index) in portraits" :key="index" class="opt">
+      <div
+        v-for="(p, index) in portraits"
+        :key="index"
+        class="opt"
+        :class="{ selected: isselected[index] }"
+        @click="select(index, p)"
+      >
         {{ p.title }}
       </div>
     </div>
-    <div class="entrance">
-      <img src="@/assets/pc/portrait/portrait1.png" alt="" />
+    <div class="entrance" @click="todetail">
+      <img :src="picsrc" alt="" />
       <h4>功能体验</h4>
     </div>
   </div>
@@ -61,7 +67,42 @@ export default {
           title: "人脸美颜",
         },
       ],
+      isselected: [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ],
+      picsrc: require("@/assets/pc/portrait/portrait1.png"),
+      type: 0,
     };
+  },
+  methods: {
+    select(index, p) {
+      // 不改变数组变量本身的存值，只改变数组内的元素，vue不能检测到并重新渲染
+      // for (var i in this.isselected) {
+      //   this.isselected[i] = false;
+      // }
+      this.isselected = this.isselected.map(() => {
+        return false;
+      });
+      this.isselected[index] = true;
+      // 如果只改变了数组内的元素又想重新渲染就用以下方法
+      // this.$forceUpdate();
+      this.picsrc = p.src;
+      this.type = index;
+    },
+    todetail() {
+      this.$router.push({
+        path: "/detail",
+        query: { selected: this.type },
+      });
+    },
   },
 };
 </script>
@@ -106,7 +147,7 @@ export default {
       margin-right: compute(3);
       margin-bottom: compute(18);
       float: left;
-      padding: 0 compute(12);
+      padding: 0 compute(12) compute(1.5) compute(12);
       background: #ffffff;
       border-radius: compute(10);
       border: 1px solid #c6c6c6;
@@ -132,6 +173,10 @@ export default {
     }
     .opt:nth-child(n + 4) {
       width: compute(82);
+    }
+    .selected {
+      border: 1px solid #fd4538;
+      color: #e9675f;
     }
   }
   .entrance {

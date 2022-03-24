@@ -35,6 +35,7 @@ export default {
   img {
     // 调整img图片与下面盒子的缝隙
     vertical-align: bottom;
+    width: 365px;
   }
   .function-title {
     width: 365px;

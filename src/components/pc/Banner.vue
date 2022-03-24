@@ -3,7 +3,12 @@
     <div class="circle"></div>
     <div class="circle"></div>
     <div class="mainContent bannerMain">
-      <img class="pic" src="@/assets/pc/banner1.png" alt="" />
+      <div class="pic-box">
+        <img class="pic" src="@/assets/pc/banner1.png" alt="" />
+        <div class="changebox">
+          <img class="pic2" src="@/assets/pc/banner2.png" alt="" />
+        </div>
+      </div>
       <img class="word" src="@/assets/pc/banner-word.png" alt="" />
     </div>
   </div>
@@ -43,9 +48,29 @@ export default {};
   }
   .bannerMain {
     height: 100%;
-    .pic {
+    .pic-box {
+      width: 558px;
+      height: 675px;
+      display: inline-block;
       margin-top: 51px;
+      position: relative;
+      border-radius: 29px;
+      overflow: hidden;
     }
+    .changebox {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 558px;
+      height: 675px;
+      border-right: 3.5px solid #fff;
+      overflow: hidden;
+      animation: pic-change 2.4s ease infinite;
+      .pic2 {
+        vertical-align: bottom;
+      }
+    }
+
     .word {
       vertical-align: top;
       margin-top: 228px;
@@ -53,7 +78,15 @@ export default {};
     }
   }
 }
-
+@keyframes pic-change {
+  0%,
+  100% {
+    width: 0;
+  }
+  50% {
+    width: 558px;
+  }
+}
 @keyframes mymove {
   0%,
   100% {

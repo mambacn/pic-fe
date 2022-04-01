@@ -1,6 +1,8 @@
 <template>
   <div class="header-box">
-    <div class="logo" @click="returnhome">企业logo</div>
+    <div class="logo" @click="returnhome">
+      <img src="@/assets/pc/logo.png" alt="" />
+    </div>
     <div class="more"><img src="@/assets/mobile/more.png" alt="" /></div>
   </div>
 </template>
@@ -27,17 +29,12 @@ export default {
   align-items: center;
   border-bottom: 1px solid #e9e9e9;
   .logo {
-    width: compute(157);
-    height: compute(32);
-    background: #ffeae3;
-    border-radius: compute(3);
-    font-size: compute(12);
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #f88987;
-    line-height: compute(32);
-    text-align: center;
+    width: compute(118);
+    height: compute(30);
     margin-left: compute(20);
+    img {
+      height: 100%;
+    }
   }
   .more {
     img {

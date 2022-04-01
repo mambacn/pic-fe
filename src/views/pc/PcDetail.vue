@@ -9,11 +9,13 @@
       </div>
       <!-- 功能体验展示模块 -->
       <div class="experience">
+        <!-- 参数模块 -->
         <Parameter
           :isloading="isloading"
           :type="parseInt($route.query.selected)"
           @confirm="handle"
         ></Parameter>
+        <!-- 展示模块 -->
         <div class="show">
           <div class="loading" v-show="isloading"></div>
           <img :src="picurl" alt="" />
@@ -31,6 +33,7 @@
           <div class="origin" v-show="iscomparing" ref="origin">原图</div>
           <div class="result" v-show="iscomparing" ref="result">效果图</div>
         </div>
+        <!-- 上传下载模块 -->
         <div class="upload">
           <div class="search">
             <el-input
@@ -41,9 +44,10 @@
             </el-input>
           </div>
           <span>或</span>
-          <button type="button" class="button2">
+          <button type="button" class="button2" @click="downloadpic">
             <img src="@/assets/mobile/download.png" alt="" />
             下载成图
+            <!-- <a :href="newpicurl ? newpicurl : '#'" download="pic"> 下载成图</a> -->
           </button>
           <button type="button" class="button1" @click="uploadpic">
             上传照片
@@ -71,7 +75,7 @@ export default {
       input: "",
       picurl: "",
       newpicurl: "",
-      file: undefined,
+      file: null,
       isloading: false,
       iscomparing: false,
       ajaxpath: [
@@ -114,7 +118,7 @@ export default {
     },
     handle(value) {
       // 判断file是否是空对象,不是空对象才发送ajax请求并显示loading
-      if (this.file) {
+      if (this.file != null) {
         const fd = new FormData();
         fd.append("image", this.file);
         fd.append("json", "json");
@@ -180,30 +184,29 @@ export default {
         document.onmouseup = null;
       };
     },
-    // downloadIamge(imgsrc, name) {
-    //   //下载图片地址和图片名
-    //   var image = new Image();
-    //   // 解决跨域 Canvas 污染问题
-    //   image.setAttribute("crossOrigin", "anonymous");
-    //   image.onload = function () {
-    //     var canvas = document.createElement("canvas");
-    //     canvas.width = image.width;
-    //     canvas.height = image.height;
-    //     var context = canvas.getContext("2d");
-    //     context.drawImage(image, 0, 0, image.width, image.height);
-    //     var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-
-    //     var a = document.createElement("a"); // 生成一个a元素
-    //     var event = new MouseEvent("click"); // 创建一个单击事件
-    //     a.download = name || "photo"; // 设置图片名称
-    //     a.href = url; // 将生成的URL设置为a.href属性
-    //     a.dispatchEvent(event); // 触发a的单击事件
-    //   };
-    //   image.src = imgsrc;
-    // },
-    // downloadpic() {
-    //   this.downloadIamge(this.newpicurl, "pic");
-    // },
+    downloadIamge(imgsrc, name) {
+      //下载图片地址和图片名
+      var image = new Image();
+      // 解决跨域 Canvas 污染问题
+      image.setAttribute("crossOrigin", "*");
+      image.src = imgsrc;
+      image.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        var context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0, image.width, image.height);
+        var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+        var a = document.createElement("a"); // 生成一个a元素
+        var event = new MouseEvent("click"); // 创建一个单击事件
+        a.download = name || "photo"; // 设置图片名称
+        a.href = url; // 将生成的URL设置为a.href属性
+        a.dispatchEvent(event); // 触发a的单击事件
+      };
+    },
+    downloadpic() {
+      this.downloadIamge(this.newpicurl, "pic");
+    },
   },
 };
 </script>
@@ -389,7 +392,6 @@ export default {
         }
         .button2 {
           border: 1px solid #fd4538;
-          color: #fd4538;
           margin-right: 56.5px;
           margin-left: 34px;
           position: relative;
@@ -398,6 +400,9 @@ export default {
             top: 16px;
             left: 30px;
             width: 15px;
+          }
+          a {
+            color: #fd4538;
           }
         }
         .default-btn {

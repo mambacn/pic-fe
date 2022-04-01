@@ -6,8 +6,14 @@
         <div>© 2022 隐私政策 京ICP证080268号 京ICP备10005211号</div>
       </div>
       <div class="download">
-        <img src="@/assets/pc/Android.png" alt="" />
-        <img src="@/assets/pc/ios.png" alt="" />
+        <a
+          href="https://play.google.com/store/apps/details?id=sw.superb.faceaging"
+          target="_blank"
+          ><img src="@/assets/pc/Android.png" alt=""
+        /></a>
+        <a href="https://apps.apple.com/cn/app/id1603377583" target="_blank"
+          ><img src="@/assets/pc/ios.png" alt=""
+        /></a>
       </div>
     </div>
   </div>
@@ -44,9 +50,12 @@ export default {};
     }
     .download {
       padding-top: 61px;
-      img {
+      a {
+        display: inline-block;
         margin-left: 29px;
-        cursor: pointer;
+      }
+      img {
+        width: 100%;
       }
     }
   }

@@ -12,7 +12,7 @@
         v-for="(p, index) in portraits"
         :key="index"
         class="opt"
-        :class="{ selected: isselected[index] }"
+        :class="{ selected: type == index }"
         @click="select(index, p)"
       >
         {{ p.title }}
@@ -67,33 +67,12 @@ export default {
           title: "人脸美颜",
         },
       ],
-      isselected: [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ],
       picsrc: require("@/assets/pc/portrait/portrait1.png"),
       type: 0,
     };
   },
   methods: {
     select(index, p) {
-      // 不改变数组变量本身的存值，只改变数组内的元素，vue不能检测到并重新渲染
-      // for (var i in this.isselected) {
-      //   this.isselected[i] = false;
-      // }
-      this.isselected = this.isselected.map(() => {
-        return false;
-      });
-      this.isselected[index] = true;
-      // 如果只改变了数组内的元素又想重新渲染就用以下方法
-      // this.$forceUpdate();
       this.picsrc = p.src;
       this.type = index;
     },
@@ -137,43 +116,82 @@ export default {
       line-height: compute(25);
     }
   }
+  // #region
+  // .opts {
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: space-between;
+  //   margin: compute(23) compute(17) 0 compute(20);
+  //   .opt {
+  //     white-space: nowrap;
+  //     margin-right: compute(3);
+  //     margin-bottom: compute(18);
+  //     float: left;
+  //     padding: 0 compute(12) compute(1.5) compute(12);
+  //     background: #ffffff;
+  //     border-radius: compute(10);
+  //     border: 1px solid #c6c6c6;
+  //     font-size: compute(14);
+  //     line-height: compute(30);
+  //     font-family: PingFangSC-Regular, PingFang SC;
+  //     font-weight: 400;
+  //     color: #444444;
+  //   }
+  //   .opt:first-child {
+  //     padding: 0 compute(10);
+  //   }
+  //   .opt:nth-child(3) {
+  //     padding: 0 compute(8);
+  //   }
+  //   .opt:nth-child(3n + 5) {
+  //     position: relative;
+  //     left: compute(-22);
+  //   }
+  //   .opt:nth-child(3n + 6) {
+  //     position: relative;
+  //     left: compute(-53);
+  //   }
+  //   .opt:nth-child(n + 4) {
+  //     width: compute(82);
+  //   }
+  //   .selected {
+  //     border: 1px solid #fd4538;
+  //     color: #e9675f;
+  //   }
+  // }
+  // #endregion
   .opts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     margin: compute(23) compute(17) 0 compute(20);
     .opt {
-      white-space: nowrap;
-      margin-right: compute(3);
-      margin-bottom: compute(18);
-      float: left;
-      padding: 0 compute(12) compute(1.5) compute(12);
+      width: compute(80);
+      height: compute(30);
       background: #ffffff;
       border-radius: compute(10);
       border: 1px solid #c6c6c6;
+      float: left;
       font-size: compute(14);
-      line-height: compute(30);
+      text-align: center;
+      line-height: compute(28);
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #444444;
+      margin-bottom: compute(18);
     }
-    .opt:first-child {
-      padding: 0 compute(10);
+    .opt:nth-child(1) {
+      width: compute(90);
+    }
+    .opt:nth-child(2) {
+      margin-left: compute(13);
+      margin-right: compute(15);
     }
     .opt:nth-child(3) {
-      padding: 0 compute(8);
+      width: compute(136);
     }
     .opt:nth-child(3n + 5) {
-      position: relative;
-      left: compute(-22);
+      margin-left: compute(23);
+      margin-right: compute(15);
     }
-    .opt:nth-child(3n + 6) {
-      position: relative;
-      left: compute(-53);
-    }
-    .opt:nth-child(n + 4) {
-      width: compute(82);
-    }
+
     .selected {
       border: 1px solid #fd4538;
       color: #e9675f;

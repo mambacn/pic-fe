@@ -8,6 +8,8 @@ import '@/assets/css/element-variables.scss'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
+axios.defaults.baseURL = "http://pic.wewallet.info";
+
 Vue.prototype.$message = Message
 Vue.use(Button)
 Vue.use(Popover)

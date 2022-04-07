@@ -18,7 +18,7 @@
         <!-- 展示模块 -->
         <div class="show">
           <div class="loading" v-show="isloading"></div>
-          <img :src="picurl" alt="" />
+          <img class="originalpic" :src="picurl" alt="" v-show="picurl" />
           <div class="newpic-box" ref="newpicbox" v-show="iscomparing">
             <img class="newpic" :src="newpicurl" alt="" />
           </div>
@@ -37,10 +37,15 @@
         <div class="upload">
           <div class="search">
             <el-input
-              placeholder="请输入内容"
-              suffix-icon="el-icon-search"
+              placeholder="请输入图片地址"
               v-model="input"
+              class="input-with-select"
             >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="searchpic"
+              ></el-button>
             </el-input>
           </div>
           <span>或</span>
@@ -73,10 +78,15 @@ export default {
   data() {
     return {
       input: "",
+      // 原图片地址
       picurl: "",
+      // 效果图地址
       newpicurl: "",
+      // 上传文件
       file: null,
+      // 是否正在加载效果图
       isloading: false,
+      // 是否正在比较
       iscomparing: false,
       ajaxpath: [
         "/tencentApi/changeAging",
@@ -97,7 +107,9 @@ export default {
     },
     showpic(e) {
       // console.log(e.target.files);
-      this.$refs.newpicbox.style.width = "580.5px";
+      if (this.iscomparing == true) {
+        this.$refs.newpicbox.style.width = "580.5px";
+      }
       this.newpicurl = "";
       this.iscomparing = false;
       const file = e.target.files[0];
@@ -133,6 +145,11 @@ export default {
         }
         const num = parseInt(this.$route.query.selected);
         this.$axios.post(this.ajaxpath[num], fd).then((res) => {
+          if (res.data.status == "fail") {
+            this.isloading = false;
+            this.iscomparing = false;
+            return this.$message.error("所选图片无法处理，请重新上传！");
+          }
           const url = res.data.body.ImageURL;
           this.newpicurl = url;
           this.isloading = false;
@@ -168,7 +185,7 @@ export default {
         } else {
           this.$refs.origin.style.visibility = "visible";
         }
-        let diffdata = 558.5 - left;
+        let diffdata = 557 - left;
         let width = 580.5 + diffdata;
         let resultleft = 595 - diffdata < 33.5 ? 33.5 : 595 - diffdata;
         if (resultleft > 1040) {
@@ -184,28 +201,53 @@ export default {
         document.onmouseup = null;
       };
     },
-    downloadIamge(imgsrc, name) {
-      //下载图片地址和图片名
-      var image = new Image();
-      // 解决跨域 Canvas 污染问题
-      image.setAttribute("crossOrigin", "*");
-      image.src = imgsrc;
-      image.onload = function () {
-        var canvas = document.createElement("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        var context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0, image.width, image.height);
-        var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-        var a = document.createElement("a"); // 生成一个a元素
-        var event = new MouseEvent("click"); // 创建一个单击事件
-        a.download = name || "photo"; // 设置图片名称
-        a.href = url; // 将生成的URL设置为a.href属性
-        a.dispatchEvent(event); // 触发a的单击事件
-      };
-    },
+    // #region
+    // downloadIamge(imgsrc, name) {
+    //   //下载图片地址和图片名
+    //   var image = new Image();
+    //   // 解决跨域 Canvas 污染问题
+    //   image.setAttribute("crossOrigin", "*");
+    //   image.src = imgsrc;
+    //   image.onload = function () {
+    //     var canvas = document.createElement("canvas");
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
+    //     var context = canvas.getContext("2d");
+    //     context.drawImage(image, 0, 0, image.width, image.height);
+    //     var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+    //     var a = document.createElement("a"); // 生成一个a元素
+    //     var event = new MouseEvent("click"); // 创建一个单击事件
+    //     a.download = name || "photo"; // 设置图片名称
+    //     a.href = url; // 将生成的URL设置为a.href属性
+    //     a.dispatchEvent(event); // 触发a的单击事件
+    //   };
+    // },
+    // downloadpic() {
+    //   this.downloadIamge(this.newpicurl, "pic");
+    // },
+    // #endregion
     downloadpic() {
-      this.downloadIamge(this.newpicurl, "pic");
+      let a_link = document.createElement("a");
+      a_link.style.display = "none";
+      a_link.href = this.newpicurl;
+      a_link.setAttribute("id", "codeLink");
+      a_link.setAttribute("download", "pic");
+      document.body.appendChild(a_link);
+      a_link.click();
+
+      let objLink = document.getElementById("codeLink");
+      document.body.removeChild(objLink);
+    },
+    searchpic() {
+      console.log(this.input);
+      this.$message.error("图片加载错误");
+      try {
+        //可能会导致错误的代码
+      } catch (error) {
+        //在错误发生时怎么处理
+        // this.$message.error("图片加载错误");
+        console.log(error);
+      }
     },
   },
 };
@@ -284,8 +326,9 @@ export default {
         background: #f3f3f3;
         border-radius: 1px;
         border: 1px solid #e2e2e2;
-        text-align: center;
         position: relative;
+        text-align: center;
+        overflow: hidden;
         .loading {
           width: 1161px;
           position: absolute;
@@ -295,8 +338,10 @@ export default {
           background: linear-gradient(#fff, #fd4538);
           animation: Loading 1.2s linear infinite;
         }
-        img {
+        .originalpic {
+          width: 100%;
           height: 100%;
+          object-fit: contain;
         }
         .newpic-box {
           position: absolute;
@@ -306,17 +351,23 @@ export default {
           top: 0;
           right: 0;
           .newpic {
+            width: 1161px;
+            height: 499px;
+            object-fit: contain;
             position: absolute;
-            right: 580.15px;
-            transform: translateX(50%);
-            background-color: #fff;
+            right: 0;
+            //position: absolute;
+            //right: 580.15px;
+            //transform: translateX(50%);
+            background-color: #f3f3f3;
           }
         }
         .comparison {
           cursor: pointer;
           position: absolute;
           z-index: 1;
-          left: 558.5px;
+          top: 0;
+          left: 557px;
         }
         .origin {
           position: absolute;
@@ -366,6 +417,12 @@ export default {
           /deep/ .el-input__inner {
             height: 47px;
           }
+          /deep/ .el-input-group__append {
+            padding: 0;
+          }
+          button {
+            margin: 0;
+          }
         }
         span {
           display: inline-block;
@@ -374,7 +431,8 @@ export default {
           font-family: PingFangSC-Regular, PingFang SC;
           color: #3d3d3d;
         }
-        button {
+        .button1,
+        .button2 {
           cursor: pointer;
           float: right;
           width: 154px;
@@ -391,6 +449,7 @@ export default {
           border: 0px;
         }
         .button2 {
+          color: #fd4538;
           border: 1px solid #fd4538;
           margin-right: 56.5px;
           margin-left: 34px;

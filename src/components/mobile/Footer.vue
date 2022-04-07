@@ -5,8 +5,8 @@
       <div>© 2022 隐私政策 京ICP证080268号 京ICP备10005211号</div>
     </div>
     <div class="download">
-      <img src="@/assets/mobile/Android.png" alt="" />
-      <img src="@/assets/mobile/ios.png" alt="" />
+      <img src="@/assets/pc/Android.png" alt="" />
+      <img src="@/assets/pc/ios.png" alt="" />
     </div>
   </div>
 </template>

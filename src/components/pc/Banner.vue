@@ -20,6 +20,7 @@ export default {};
 
 <style lang="scss" scoped>
 .banner-box {
+  margin-top: 84px;
   width: 100%;
   height: 775px;
   position: relative;

@@ -12,7 +12,8 @@ export default {
   props: ["src", "funtionTitle"],
   methods: {
     todetail() {
-      this.$router.push("/detail");
+      // this.$router.push("/detail");
+      this.$message.error("该功能体验暂未开放，可下载app使用！");
     },
   },
 };

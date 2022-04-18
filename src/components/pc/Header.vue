@@ -128,8 +128,15 @@ export default {
 </style>
 <style lang="scss" scoped>
 .box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2000;
   height: 84px;
   border-bottom: 1px solid #e9e9e9;
+  background-color: #fff;
+  // box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.03);
   .headerbox {
     position: relative;
     display: flex;

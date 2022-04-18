@@ -18,7 +18,7 @@
         {{ p.title }}
       </div>
     </div>
-    <div class="entrance">
+    <div class="entrance" @click="todetail">
       <div class="picbox">
         <img :src="picsrc" alt="" />
       </div>
@@ -56,6 +56,9 @@ export default {
       });
       this.isselected[index] = true;
       this.picsrc = p.src;
+    },
+    todetail() {
+      this.$message.error("该功能体验暂未开放，可下载app使用！");
     },
   },
 };

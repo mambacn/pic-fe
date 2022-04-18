@@ -21,6 +21,7 @@ export default {};
   @return $number/375 * 100vw;
 }
 .banner-box {
+  margin-top: compute(64);
   width: 100vw;
   height: compute(284);
   position: relative;

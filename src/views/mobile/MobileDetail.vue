@@ -84,9 +84,10 @@ export default {
   methods: {
     uploadpic() {
       this.$refs["defaultbtn"].click();
+      this.input = "";
     },
     showpic(e) {
-      this.$refs.newpicbox.style.width = "165.5px";
+      this.$refs.newpicbox.style.width = "44.133vw";
       this.newpicurl = "";
       this.iscomparing = false;
       const file = e.target.files[0];
@@ -135,43 +136,43 @@ export default {
         this.isloading = true;
         this.newpicurl = "";
         this.iscomparing = false;
-        this.$refs.newpicbox.style.width = "165.5px";
-        this.$refs.result.style.left = "185px";
+        this.$refs.newpicbox.style.width = "44.133vw";
+        this.$refs.result.style.left = "49.333vw";
       }
     },
     move(e) {
       let odiv = e.target; //获取目标元素
       //算出鼠标相对元素的位置
-      let disX = e.touches[0].clientX - odiv.offsetLeft;
+      let disX = ((e.touches[0].clientX - odiv.offsetLeft) / 375) * 100;
       // let disY = e.clientY - odiv.offsetTop;
       document.ontouchmove = (e) => {
         //鼠标按下并移动的事件
         //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
-        let left = e.touches[0].clientX - disX;
+        let left = (e.touches[0].clientX / 375) * 100 - disX;
         // let top = e.clientY - disY;
         //移动当前元素
         if (left < 0) {
-          odiv.style.left = 0 + "px";
-        } else if (left > 309) {
-          odiv.style.left = 309 + "px";
+          odiv.style.left = 0 + "vw";
+        } else if (left > 82.4) {
+          odiv.style.left = 82.4 + "vw";
         } else {
-          odiv.style.left = left + "px";
+          odiv.style.left = left + "vw";
         }
-        if (left < 110) {
+        if (left < 29.333) {
           this.$refs.origin.style.visibility = "hidden";
         } else {
           this.$refs.origin.style.visibility = "visible";
         }
-        let diffdata = 155 - left;
-        let width = 165.5 + diffdata;
-        let resultleft = 185 - diffdata < 33.5 ? 33.5 : 185 - diffdata;
-        if (resultleft > 270) {
+        let diffdata = 41.333 - left;
+        let width = 44.133 + diffdata;
+        let resultleft = 49.333 - diffdata < 8.933 ? 8.933 : 49.33 - diffdata;
+        if (resultleft > 72) {
           this.$refs.result.style.visibility = "hidden";
         } else {
           this.$refs.result.style.visibility = "visible";
         }
-        this.$refs.result.style.left = resultleft + "px";
-        this.$refs.newpicbox.style.width = width + "px";
+        this.$refs.result.style.left = resultleft + "vw";
+        this.$refs.newpicbox.style.width = width + "vw";
       };
       document.ontouchend = (e) => {
         document.ontouchmove = null;
@@ -191,8 +192,14 @@ export default {
       document.body.removeChild(objLink);
     },
     searchpic() {
-      console.log(this.input);
-      this.$message.error("图片加载错误");
+      this.$message.error("该地址不支持，图片加载错误");
+      if (this.iscomparing == true) {
+        this.$refs.newpicbox.style.width = "580.5px";
+      }
+      this.newpicurl = "";
+      this.picurl = "";
+      this.file = null;
+      this.iscomparing = false;
     },
   },
 };
@@ -201,6 +208,9 @@ export default {
 <style lang="scss" scoped>
 @function compute($number) {
   @return $number/375 * 100vw;
+}
+.detail-box {
+  margin-top: compute(64);
 }
 .show {
   width: compute(335);
@@ -229,13 +239,13 @@ export default {
   .newpic-box {
     position: absolute;
     overflow: hidden;
-    width: 165.5px;
+    width: compute(165.5);
     height: 100%;
     top: 0;
     right: 0;
     .newpic {
-      width: 331px;
-      height: 247px;
+      width: compute(331);
+      height: compute(247);
       object-fit: contain;
       position: absolute;
       right: 0;
@@ -247,34 +257,34 @@ export default {
     position: absolute;
     z-index: 1;
     top: 0;
-    left: 155px;
+    left: compute(155);
   }
   .origin {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 57px;
-    height: 20px;
-    line-height: 20px;
+    top: compute(10);
+    left: compute(10);
+    width: compute(57);
+    height: compute(20);
+    line-height: compute(20);
     text-align: center;
     background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    font-size: 7px;
+    border-radius: compute(4);
+    font-size: compute(7);
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     color: #fff;
   }
   .result {
     position: absolute;
-    top: 10px;
-    left: 185px;
-    width: 57px;
-    height: 20px;
-    line-height: 20px;
+    top: compute(10);
+    left: compute(185);
+    width: compute(57);
+    height: compute(20);
+    line-height: compute(20);
     text-align: center;
     background-color: rgba(253, 69, 56, 0.2);
-    border-radius: 4px;
-    font-size: 7px;
+    border-radius: compute(4);
+    font-size: compute(7);
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     color: #fd4538;

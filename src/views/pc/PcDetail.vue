@@ -238,16 +238,57 @@ export default {
       let objLink = document.getElementById("codeLink");
       document.body.removeChild(objLink);
     },
+    //#region
+    // searchpic() {
+    //   try {
+    //     this.checkUrl(this.input)
+    //       .then((res) => {
+    //         if (res) {
+    //           alert("有效");
+    //         } else {
+    //           alert("无效");
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    // checkUrl(url) {
+    //   const _this = this;
+    //   const promise = new Promise(function (resolve, reject) {
+    //     if (!url) reject("无效路径");
+    //     _this.$axios.get(url).then((res) => {
+    //       if (res.status == 200) resolve(true);
+    //       else resolve(false);
+    //     });
+    //   });
+    //   return promise;
+    // },
+    //#endregion
     searchpic() {
-      console.log(this.input);
-      this.$message.error("图片加载错误");
-      try {
-        //可能会导致错误的代码
-      } catch (error) {
-        //在错误发生时怎么处理
-        // this.$message.error("图片加载错误");
-        console.log(error);
+      // this.checkCross(this.input);
+      this.$message.error("该地址不支持，图片加载错误");
+      if (this.iscomparing == true) {
+        this.$refs.newpicbox.style.width = "580.5px";
       }
+      this.newpicurl = "";
+      this.picurl = "";
+      this.file = null;
+      this.iscomparing = false;
+    },
+    checkCross(url) {
+      let img = new Image();
+      img.src = url;
+      img.onload = () => {
+        this.picurl = this.input;
+      };
+      img.onerror = () => {
+        this.$message.error("该地址不支持，图片加载错误");
+        this.picurl = "";
+      };
     },
   },
 };
@@ -257,6 +298,7 @@ export default {
 .detail-box {
   height: 953px;
   background-color: #fff8f8;
+  margin-top: 84px;
   .detalMain {
     // 标题样式
     .titile-box {

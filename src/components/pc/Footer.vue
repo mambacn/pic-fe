@@ -42,6 +42,7 @@ export default {};
         display: inline-block;
         height: 28px;
         margin-right: 29px;
+        cursor: pointer;
       }
       div {
         margin-top: 26px;

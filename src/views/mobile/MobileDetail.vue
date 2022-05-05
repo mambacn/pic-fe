@@ -112,7 +112,6 @@ export default {
         const fd = new FormData();
         fd.append("image", this.file);
         fd.append("json", "json");
-        // console.log(value);
         if (value.hasOwnProperty("api")) {
           // 如果用户选择了素描化则进行专门处理
           if (value.api === 1) this.ajaxpath[2] = "/alyApi/facesketch";

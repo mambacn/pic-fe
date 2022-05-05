@@ -23,7 +23,9 @@
             </div>
             <div class="function-two">
               <h2>拼图贴图</h2>
-              <ul>
+              <ul
+                @click="$message.error('该功能体验暂未开放，可下载app使用！')"
+              >
                 <li>照片拼图</li>
                 <li>照片滤镜</li>
                 <li>海量贴图</li>
@@ -94,6 +96,10 @@ export default {
   },
   methods: {
     todetail(type) {
+      if (type == 6) {
+        this.$message.error("该功能体验暂未开放，可下载app使用！");
+        return;
+      }
       this.$router.push({
         path: "/detail",
         query: { selected: type },
@@ -236,6 +242,9 @@ export default {
                 font-weight: 400;
                 color: #444444;
                 cursor: pointer;
+              }
+              li:hover {
+                color: #fd4538;
               }
             }
           }

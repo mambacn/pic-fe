@@ -160,6 +160,8 @@ export default {
         this.iscomparing = false;
         this.$refs.newpicbox.style.width = "580.5px";
         this.$refs.result.style.left = "592px";
+      } else {
+        this.$message.error("该请先上传照片");
       }
     },
     move(e) {
@@ -227,16 +229,18 @@ export default {
     // },
     // #endregion
     downloadpic() {
-      let a_link = document.createElement("a");
-      a_link.style.display = "none";
-      a_link.href = this.newpicurl;
-      a_link.setAttribute("id", "codeLink");
-      a_link.setAttribute("download", "pic");
-      document.body.appendChild(a_link);
-      a_link.click();
+      if (this.newpicurl) {
+        let a_link = document.createElement("a");
+        a_link.style.display = "none";
+        a_link.href = this.newpicurl;
+        a_link.setAttribute("id", "codeLink");
+        a_link.setAttribute("download", "pic");
+        document.body.appendChild(a_link);
+        a_link.click();
 
-      let objLink = document.getElementById("codeLink");
-      document.body.removeChild(objLink);
+        let objLink = document.getElementById("codeLink");
+        document.body.removeChild(objLink);
+      }
     },
     //#region
     // searchpic() {

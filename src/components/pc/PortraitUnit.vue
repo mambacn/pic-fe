@@ -12,6 +12,10 @@ export default {
   props: ["src", "functionTitle", "type"],
   methods: {
     todetail() {
+      if (this.type == 6) {
+        this.$message.error("该功能体验暂未开放，可下载app使用！");
+        return;
+      }
       this.$router.push({
         path: "/detail",
         query: { selected: this.type },

@@ -77,6 +77,10 @@ export default {
       this.type = index;
     },
     todetail() {
+      if (this.type == 6) {
+        this.$message.error("该功能体验暂未开放，可下载app使用！");
+        return;
+      }
       this.$router.push({
         path: "/detail",
         query: { selected: this.type },
@@ -162,6 +166,7 @@ export default {
   // #endregion
   .opts {
     margin: compute(23) compute(17) 0 compute(20);
+    overflow: hidden;
     .opt {
       width: compute(80);
       height: compute(30);
@@ -191,7 +196,6 @@ export default {
       margin-left: compute(23);
       margin-right: compute(15);
     }
-
     .selected {
       border: 1px solid #fd4538;
       color: #e9675f;
